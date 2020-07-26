@@ -55,6 +55,7 @@
 import vTab from "../views/tabBar";
 import { mapGetters, mapActions } from "vuex";
 import { MessageBox } from "mint-ui";
+import {cartList,cartInfo,cartEdit,cartDelete} from '../../common/js/app'
 export default {
   data() {
     return {
@@ -178,7 +179,7 @@ export default {
       this.$router.push("/login");
     },
     getCartList() {
-      this.http.get("/api/cartlist", { uid: this.userInfo.uid }).then(res => {
+      this.http.get(cartList, { uid: this.userInfo.uid }).then(res => {
         if (res.data.code == 200) {
           this.goodsList = res.data.list;
           this.goodsList.map(item => {
@@ -194,8 +195,8 @@ export default {
     },
     add(goodsId, ind) {
       this.setCartsNumSync([ind, 2]);
-      this.http.post("/api/cartedit", { id: goodsId, type: 2 });
-      this.http.get("/api/cartlist", { uid: this.userInfo.uid }).then(res => {
+      this.http.post(cartEdit, { id: goodsId, type: 2 });
+      this.http.get(cartList, { uid: this.userInfo.uid }).then(res => {
         if (res.data.code == 200) {
           this.goodsList = res.data.list;
           this.checkArr.map(caItem => {
@@ -216,9 +217,19 @@ export default {
       });
     },
     sub(goodsId, ind) {
+		let flag = false;
+		this.cartsList.map(item=>{
+			// console.log(item.id)
+			if(goodsId==item.id&&item.num==1){
+				flag =true;
+			}
+		})
+		if(flag){
+			return;
+		}
       this.setCartsNumSync([ind, 1]);
-      this.http.post("/api/cartedit", { id: goodsId, type: 1 });
-      this.http.get("/api/cartlist", { uid: this.userInfo.uid }).then(res => {
+      this.http.post(cartEdit, { id: goodsId, type: 1 });
+      this.http.get(cartList, { uid: this.userInfo.uid }).then(res => {
         if (res.data.code == 200) {
           this.goodsList = res.data.list;
           this.checkArr.map(caItem => {
@@ -233,15 +244,14 @@ export default {
               });
             }
           });
-          console.log(this.checkArr)
           this.price();
         }
       });
     },
     del(goodsId, ind) {
       this.delCartsGoodSync(ind);
-      this.http.post("/api/cartdelete", { id: goodsId });
-      this.http.get("/api/cartlist", { uid: this.userInfo.uid }).then(res => {
+      this.http.post(cartDelete, { id: goodsId });
+      this.http.get(cartList, { uid: this.userInfo.uid }).then(res => {
         if (res.data.code == 200) {
           this.delCartsListSync([]);
           if (res.data.list != null) {

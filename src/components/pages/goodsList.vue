@@ -21,6 +21,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { MessageBox } from 'mint-ui';
+import {getGoodsInfo,cartAdd} from '../../common/js/app'
 export default {
   data() {
     return {
@@ -34,7 +35,7 @@ export default {
     ...mapActions(["setGoodsListSync", "setGoodsInfoSync","setCartsListSync"]),
     addCart(id) {
       if (this.userInfo.uid) {
-        this.http.post( "/api/cartadd",{ uid:this.userInfo.uid,goodsid:id, num:1}
+        this.http.post( cartAdd,{ uid:this.userInfo.uid,goodsid:id, num:1}
         ).then(res => {
           if (res.data.code == 200) {
             this.$router.push('/cart');
@@ -52,7 +53,7 @@ export default {
     },
     goodsDetail(id) {
       this.axios({
-        url: "/api/getgoodsinfo",
+        url: getGoodsInfo,
         params: { id }
       }).then(res => {
         if (res.data.code == 200) {

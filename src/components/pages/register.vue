@@ -43,6 +43,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { MessageBox, Toast } from "mint-ui";
+import {register} from '../../common/js/app'
 export default {
   data() {
     return {
@@ -125,7 +126,7 @@ export default {
           if (this.pwdState == "success") {
             if ((this.pwdAgainState = "success")) {
               this.axios
-                .post("/api/register", {
+                .post(register, {
                   phone: this.phone,
                   nickname: this.nickname,
                   password: this.password

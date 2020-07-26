@@ -35,6 +35,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import {getCateTree,getCateGoods} from '../../common/js/app'
 export default {
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
     },
     getCateGoods(sid) {
       this.axios({
-        url: "/api/getcategoods",
+        url:getCateGoods,
         params: { sid }
       }).then(res => {
         if (res.data.code == 200) {
@@ -62,7 +63,7 @@ export default {
     }
   },
   mounted() {
-    this.axios.get("/api/getcatetree").then(res => {
+    this.axios.get(getCateTree).then(res => {
       this.cateTree = res.data.list;
       this.cateChildren = this.cateTree[0].children;
     });

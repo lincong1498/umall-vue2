@@ -125,6 +125,7 @@
 
 <script>
 import vTab from "../views/tabBar";
+import {getCate,getBanner,getIndexGoods} from '../../common/js/app.js'
 export default {
   components: {
     vTab
@@ -140,13 +141,13 @@ export default {
   },
   methods: {
     getcate() {
-      return this.axios.get("/api/getcate");
+      return this.axios.get(getCate);
     },
     getbanner() {
-      return this.axios.get("/api/getbanner");
+      return this.axios.get(getBanner);
     },
     getIndexgoods() {
-      return this.axios.get("/api/getindexgoods");
+      return this.axios.get(getIndexGoods);
     }
   },
   mounted() {
